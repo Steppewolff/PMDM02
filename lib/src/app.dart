@@ -8,7 +8,7 @@ class AppPMDM02 extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Center(
-        child: HomePage(),
+        child: HomePage.sinParametro(),
       ),
     );
   }

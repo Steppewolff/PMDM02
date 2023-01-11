@@ -2,8 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:gomez_romano_fernando_pmdm02_tarea/src/pages/WidgetPage.dart';
 import 'PersonalPage.dart';
 
+class Persona {
+  late String nombre;
+  late String apellido;
+  late final String fechaNacimiento;
+  late final String email;
+  late final String pwd;
+
+  Persona.soloNombre(this.nombre);
+
+  Persona.sinNombre(this.apellido, this.fechaNacimiento, this.email, this.pwd);
+
+  Persona(
+      this.nombre, this.apellido, this.fechaNacimiento, this.email, this.pwd);
+
+  get getNombre => nombre;
+
+  set setNombre(nombre) => this.nombre = nombre;
+}
+
 class HomePage extends StatefulWidget {
   // Este widget mostrará la página HomePage de la app.
+  late Persona persona;
+  HomePage.sinParametro();
+  HomePage({super.key, required this.persona});
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -24,20 +47,28 @@ class _HomePageState extends State<HomePage> {
               style: TextStyle(fontSize: 20),
             ),
             FloatingActionButton.small(onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => PersonalPage()));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PersonalPage(persona: persona),
+                ),
+              );
             }),
             FloatingActionButton.small(onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => WidgetPage()));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => WidgetPage(),
+                ),
+              );
             }),
+            Text(persona.nombre)
           ],
         ),
       ),
     );
   }
 }
-
 
 
 // class MyHomePage extends StatefulWidget {
