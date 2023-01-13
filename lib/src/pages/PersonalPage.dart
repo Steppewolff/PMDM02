@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'HomePage.dart';
@@ -7,38 +8,18 @@ class PersonalPage extends StatefulWidget {
   Persona persona;
   PersonalPage({super.key, required this.persona});
 
+  //Se guarda el estado del wiget PersonalPage
   @override
   State<PersonalPage> createState() => _PersonalPageState();
 }
 
-// Persona persona = Persona.sinNombre(
-//     'Gómez', '12/05/1982', 'fernando@fernando.es', '123456789');
-
+//Se instancia el objeto persona, inicializando todos sus atributos
 Persona persona = Persona(
-    'Prueba', 'Gómez', '12/05/1982', 'fernando@fernando.es', '123456789');
+    'Fernando', 'Gómez', '12/05/1982', 'fernando@fernando.es', '123456789');
 
-// class Formulario extends StatefulWidget {
-//   @override
-//   State<Formulario> createState() => _Formulario();
-// }
-
-// class _Formulario extends State<Formulario> {
-//   final valorTexto = TextEditingController();
-
-//   @override
-//   Widget build(BuildContext context) {}
-// }
-
-// Este widget mostrará la página HomePage de la app.
+// Este widget mostrará la página PersonalPage de la app.
 class _PersonalPageState extends State<PersonalPage> {
   final personalFormKey = GlobalKey<FormState>();
-  final valorTexto = TextEditingController();
-
-  @override
-  void reinicio() {
-    valorTexto.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +36,7 @@ class _PersonalPageState extends State<PersonalPage> {
                 color: Colors.orange,
                 decoration: TextDecoration.underline),
           ),
+          //Widget para formulario de datos personales
           Form(
             key: personalFormKey,
             child: Column(
@@ -62,16 +44,15 @@ class _PersonalPageState extends State<PersonalPage> {
               children: [
                 TextFormField(
                   initialValue: persona.nombre,
-                  controller: valorTexto,
                   decoration:
                       InputDecoration(labelText: 'Introduce tu nombre:'),
-                  onFieldSubmitted: (String value) {
-                    persona.nombre = valorTexto.text;
+                  onChanged: (String value) {
                     setState(() {
-                      persona.nombre = 'Fernando';
-                      persona.setNombre = 'Fernando';
+                      //Se emplea el método setter para pasar el valor introducido en el formualrio
+                      persona.setNombre = value;
                     });
                   },
+                  //Se valida el campo, que no esté vacío
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Por favor rellena tu nombre';
@@ -82,7 +63,7 @@ class _PersonalPageState extends State<PersonalPage> {
                   decoration:
                       InputDecoration(labelText: 'Introduce tu apellido:'),
                   initialValue: persona.apellido,
-                  onFieldSubmitted: (value) {
+                  onChanged: (String value) {
                     setState(() {
                       persona.apellido = value;
                     });
@@ -97,7 +78,7 @@ class _PersonalPageState extends State<PersonalPage> {
                   decoration: InputDecoration(
                       labelText: 'Introduce tu fecha de nacimiento:'),
                   initialValue: persona.fechaNacimiento,
-                  onFieldSubmitted: (value) {
+                  onChanged: (String value) {
                     setState(() {
                       persona.fechaNacimiento = value;
                     });
@@ -112,7 +93,7 @@ class _PersonalPageState extends State<PersonalPage> {
                   decoration: InputDecoration(labelText: 'Introduce tu email:'),
                   initialValue: persona.email,
                   keyboardType: TextInputType.emailAddress,
-                  onFieldSubmitted: (value) {
+                  onChanged: (String value) {
                     setState(() {
                       persona.email = value;
                     });
@@ -127,7 +108,7 @@ class _PersonalPageState extends State<PersonalPage> {
                   decoration:
                       InputDecoration(labelText: 'Introduce tu contraseña:'),
                   initialValue: persona.pwd,
-                  onFieldSubmitted: (value) {
+                  onChanged: (String value) {
                     setState(() {
                       persona.pwd = value;
                     });
@@ -138,12 +119,15 @@ class _PersonalPageState extends State<PersonalPage> {
                     }
                   },
                 ),
+                //Botón para enviar datos de formulario
                 ElevatedButton(
                   onPressed: () {
                     if (personalFormKey.currentState!.validate()) {
+                      //Se activa una barra en el pie que informa al usuario de que se ha guardado la información
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text('Datos recibidos ' + valorTexto.text)));
+                          content: Text('Datos recibidos ' + persona.nombre)));
                     }
+                    //Se vuelve a la HomePage y se pasa como argumento el objeto persona modificado con datos de formulario
                     Navigator.push(
                       context,
                       MaterialPageRoute(

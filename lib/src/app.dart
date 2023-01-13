@@ -8,6 +8,7 @@ class AppPMDM02 extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Center(
+        //Se instancia la HomePage con un constructor sin parámetros
         child: HomePage.sinParametro(),
       ),
     );
